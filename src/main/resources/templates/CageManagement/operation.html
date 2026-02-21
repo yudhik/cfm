@@ -1,0 +1,71 @@
+{#include management.html}
+<div class="container full-container p-0 flex flex-col gap-6">
+  {#include header.html}{/include}
+  <div class="card">
+    <div class="card-body flex flex-col gap-6">
+      <h6 class="text-lg text-gray-500 font-semibold">Operation Form</h6>
+      <div class="card">
+        <div class="card-body">
+          {#form uri:CageManagement.appendOperation}
+          <!-- combo box -->
+          <div class="mb-6">
+            <label for="select-cage" class="block text-sm mb-2 text-gray-400">Nama Kandang</label>
+            <select id="select-cage" name="cageId"
+              class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 ">
+              {#for cage in cages}
+              <option value="{cage.id}">{cage.name}</option>
+              {/for}
+            </select>
+          </div>
+          <!-- end combo box -->
+          <div class="mb-6">
+            <label for="input-label-observedPopulation" class="block text-sm mb-2 text-gray-400">Terhitung jumlah
+              ayam</label>
+            <input type="number" id="input-label-observedPopulation" name="observedPopulation"
+              class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+              placeholder="0" aria-describedby="hs-input-helper-text">
+          </div>
+          <div class="mb-6">
+            <label for="input-label-deadCount" class="block text-sm mb-2 text-gray-400">Terhitung mati</label>
+            <input type="number" id="input-label-deadCount" name="deadCount"
+              class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+              placeholder="0" aria-describedby="hs-input-helper-text">
+          </div>
+          <div class="mb-6">
+            <label for="input-label-killedCount" class="block text-sm mb-2 text-gray-400">Terhitung
+              disembelih</label>
+            <input type="number" id="input-label-killedCount" name="killedCount"
+              class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+              placeholder="0" aria-describedby="hs-input-helper-text">
+          </div>
+          <div class="mb-6">
+            <label for="input-label-eggCount" class="block text-sm mb-2 text-gray-400">Terhitung jumlah telur saat
+              ini</label>
+            <input type="number" id="input-label-eggCount" name="eggCount"
+              class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+              placeholder="0" aria-describedby="hs-input-helper-text">
+          </div>
+          <div class="mb-6">
+            <label for="input-label-weightCount" class="block text-sm mb-2 text-gray-400">Terhitung berat telur saat
+              ini</label>
+            <input type="number" id="input-label-weightCount" name="weightCount"
+              class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+              placeholder="0" aria-describedby="hs-input-helper-text">
+          </div>
+          <div class="mb-6">
+            <label for="input-label-feedIntake" class="block text-sm mb-2 text-gray-400">Makanan yang di ambil</label>
+            <input type="number" id="input-label-feedIntake" name="feedIntake"
+              class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+              placeholder="0" aria-describedby="hs-input-helper-text">
+          </div>
+
+          <button class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700"
+            type="submit">Submit</button>
+          {/form}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{/include}

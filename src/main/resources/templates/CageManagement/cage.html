@@ -1,0 +1,31 @@
+{#include management.html}
+<div class="container full-container p-0 flex flex-col gap-6">
+  {#include header.html}{/include}
+  <div class="card">
+    <div class="card-body flex flex-col gap-6">
+      <table class="table-auto border-collapse border border-gray-400">
+        <thead>
+          <tr>
+            <th class="border border-gray-300">Nama Kandang</th>
+            <th class="border border-gray-300">Dibuat oleh</th>
+            <th class="border border-gray-300">Tanggal Pembuatan</th>
+            <th class="border border-gray-300">Usia Kandang</th>
+          </tr>
+        </thead>
+        {#if !cages.isEmpty}
+        <tbody>
+          {#for cage in cages}
+          <tr>
+            <td class="border border-gray-300">{cage.name}</td>
+            <td class="border border-gray-300">{cage.createdBy}</td>
+            <td class="border border-gray-300">{cage.createdDate}</td>
+            <td class="border border-gray-300">{cage.createdDate.weekAges}</td>
+          </tr>
+          {/for}
+        </tbody>
+        {/if}
+      </table>
+    </div>
+  </div>
+</div>
+{/include}
