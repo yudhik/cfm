@@ -1,6 +1,7 @@
 package org.brainmaster.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -16,9 +17,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "cage_log", indexes = {
-  @Index(name = "idx_cage_log_created_date", columnList = "created_date")
-})
+@Table(name = "cage_log",
+    indexes = {@Index(name = "idx_cage_log_created_date", columnList = "created_date")})
 public class CageLog extends PanacheEntityBase {
 
   @Id
@@ -70,8 +70,8 @@ public class CageLog extends PanacheEntityBase {
   @Column(name = "feed_count")
   private Integer feedCount;
 
-  @Column(name = "fit_convertion_ratio")
-  private BigDecimal fitConvertionRatio;
+  @Column(name = "feed_convertion_ratio")
+  private BigDecimal feedConvertionRatio;
 
   public CageLog() {}
 
@@ -92,13 +92,14 @@ public class CageLog extends PanacheEntityBase {
     this.eggCount = eggCount;
     this.weightCount = weightCount;
     this.eggPopulationRatio = BigDecimal.valueOf(this.eggCount.longValue())
-        .divide(BigDecimal.valueOf(this.population.longValue())).multiply(BigDecimal.valueOf(100L));
-    this.eggWeightRatio = BigDecimal.valueOf(this.eggCount.longValue()).divide(weightCount).multiply(BigDecimal.valueOf(100L));
-    this.feedIntake = feedIntake;
-    this.feedCount = this.population * this.feedIntake;
-    this.fitConvertionRatio = BigDecimal.valueOf(this.feedCount.longValue())
-        .divide(BigDecimal.valueOf(this.weightCount.longValue()))
+        .divide(BigDecimal.valueOf(this.observedPopulation.longValue()), 4, RoundingMode.HALF_UP)
         .multiply(BigDecimal.valueOf(100L));
+    this.eggWeightRatio = weightCount
+        .divide(new BigDecimal(eggCount.longValue()), 7, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(1000L));
+    this.feedIntake = feedIntake;
+    this.feedCount = new BigDecimal(this.population.longValue()).multiply(new BigDecimal(this.feedIntake.longValue())).divide(new BigDecimal(1000L), 0, RoundingMode.HALF_UP).intValue();
+    this.feedConvertionRatio = BigDecimal.valueOf(this.feedCount.longValue())
+        .divide(weightCount, 1, RoundingMode.HALF_UP);
   }
 
   public UUID getId() {
@@ -205,12 +206,12 @@ public class CageLog extends PanacheEntityBase {
     this.feedCount = feedCount;
   }
 
-  public BigDecimal getFitConvertionRatio() {
-    return fitConvertionRatio;
+  public BigDecimal getFeedConvertionRatio() {
+    return feedConvertionRatio;
   }
 
-  public void setFitConvertionRatio(BigDecimal fitConvertionRatio) {
-    this.fitConvertionRatio = fitConvertionRatio;
+  public void setFeedConvertionRatio(BigDecimal fitConvertionRatio) {
+    this.feedConvertionRatio = fitConvertionRatio;
   }
 
 

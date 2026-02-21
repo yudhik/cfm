@@ -16,7 +16,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "cage", indexes = {
-  @Index(name = "idx_cage_created_date", columnList = "created_date")
+  @Index(name = "idx_cage_created_date", columnList = "created_date"),
+  @Index(name = "idx_cage_name", columnList = "name", unique = true)
 })
 public class Cage extends PanacheEntityBase {
 

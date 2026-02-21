@@ -1,0 +1,51 @@
+{#include management.html}
+<div class="container full-container p-0 flex flex-col gap-6">
+  {#include header.html}{/include}
+  <div class="card">
+    <div class="card-body flex flex-col gap-6">
+      <p>Detil Kandang</p>
+      <table class="table-auto border-collapse border border-gray-400">
+        <thead>
+          <tr>
+            <th class="border border-gray-300">Tanggal Pencatatan</th>
+            <th class="border border-gray-300">Pop Awal</th>
+            <th class="border border-gray-300">MT</th>
+            <th class="border border-gray-300">CULL</th>
+            <th class="border border-gray-300">Pop Akhir</th>
+            <th class="border border-gray-300">Butir</th>
+            <th class="border border-gray-300">KG</th>
+            <th class="border border-gray-300">HD</th>
+            <th class="border border-gray-300">BRT TLR</th>
+            <!--
+            <th class="border border-gray-300">BTR TLR</th>
+            -->
+            <th class="border border-gray-300">F.I</th>
+            <th class="border border-gray-300">Pakan</th>
+            <th class="border border-gray-300">FCR</th>
+          </tr>
+        </thead>
+        {#if !cageLogs.isEmpty}
+        <tbody>
+          {#for cagelog in cageLogs}
+          <tr>
+            <td class="border border-gray-300">{cagelog.createdDate.toLocalDate}</td>
+            <td class="border border-gray-300">{cagelog.observedPopulation}</td>
+            <td class="border border-gray-300">{cagelog.deadCount}</td>
+            <td class="border border-gray-300">{cagelog.killedCount}</td>
+            <td class="border border-gray-300">{cagelog.population}</td>
+            <td class="border border-gray-300">{cagelog.eggCount}</td>
+            <td class="border border-gray-300">{cagelog.weightCount}</td>
+            <td class="border border-gray-300">{cagelog.eggPopulationRatio}</td>
+            <td class="border border-gray-300">{cagelog.eggWeightRatio}</td>
+            <td class="border border-gray-300">{cagelog.feedIntake}</td>
+            <td class="border border-gray-300">{cagelog.feedCount}</td>
+            <td class="border border-gray-300">{cagelog.feedConvertionRatio}</td>
+          </tr>
+          {/for}
+        </tbody>
+        {/if}
+      </table>
+    </div>
+  </div>
+</div>
+{/include}
