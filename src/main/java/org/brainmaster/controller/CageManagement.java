@@ -22,30 +22,30 @@ public class CageManagement extends Controller {
 
   @CheckedTemplate
   public static class Templates {
-    public static native TemplateInstance index();
+    public static native TemplateInstance index(Boolean dashboard);
 
-    public static native TemplateInstance cage(List<CageDTO> cages);
+    public static native TemplateInstance cage(Boolean dashboard, List<CageDTO> cages);
 
-    public static native TemplateInstance operation(List<CageDTO> cages);
+    public static native TemplateInstance operation(Boolean dashboard, List<CageDTO> cages);
   }
 
   @Path("/dashboard")
   public TemplateInstance index() {
-    return Templates.index();
+    return Templates.index(true);
   }
 
   @Path("/cage")
   public TemplateInstance cage() {
     List<CageDTO> cages = cageService.getCages(0, 10).stream().map(cage -> new CageDTO(cage.getId(),
         cage.getName(), cage.getCreatedDate(), cage.getCreatedBy())).toList();
-    return Templates.cage(cages);
+    return Templates.cage(false, cages);
   }
 
   @Path("/operation")
   public TemplateInstance operation() {
     List<CageDTO> cages = cageService.getCages(0, 10).stream().map(cage -> new CageDTO(cage.getId(),
         cage.getName(), cage.getCreatedDate(), cage.getCreatedBy())).toList();
-    return Templates.operation(cages);
+    return Templates.operation(false, cages);
   }
 
   @POST

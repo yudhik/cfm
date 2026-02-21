@@ -16,7 +16,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "cage_log", indexes = {@Index(columnList = "created_date")})
+@Table(name = "cage_log", indexes = {
+  @Index(name = "idx_cage_log_created_date", columnList = "created_date")
+})
 public class CageLog extends PanacheEntityBase {
 
   @Id
@@ -45,7 +47,7 @@ public class CageLog extends PanacheEntityBase {
   private Integer eggCount;
 
   @Column(name = "weight_count")
-  private Integer weightCount;
+  private BigDecimal weightCount;
 
   @Column(name = "egg_population_ratio")
   private BigDecimal eggPopulationRatio;
@@ -74,7 +76,7 @@ public class CageLog extends PanacheEntityBase {
   public CageLog() {}
 
   public CageLog(Cage cage, LocalDateTime createdDate, Integer observedPopulation,
-      Integer deadCount, Integer killedCount, Integer eggCount, Integer weightCount,
+      Integer deadCount, Integer killedCount, Integer eggCount, BigDecimal weightCount,
       Integer feedIntake) {
     this.id = UuidCreator.getTimeOrderedEpoch();
     this.cage = cage;
@@ -91,8 +93,7 @@ public class CageLog extends PanacheEntityBase {
     this.weightCount = weightCount;
     this.eggPopulationRatio = BigDecimal.valueOf(this.eggCount.longValue())
         .divide(BigDecimal.valueOf(this.population.longValue())).multiply(BigDecimal.valueOf(100L));
-    this.eggWeightRatio = BigDecimal.valueOf(this.weightCount.longValue())
-        .divide(BigDecimal.valueOf(this.eggCount.longValue())).multiply(BigDecimal.valueOf(100L));
+    this.eggWeightRatio = BigDecimal.valueOf(this.eggCount.longValue()).divide(weightCount).multiply(BigDecimal.valueOf(100L));
     this.feedIntake = feedIntake;
     this.feedCount = this.population * this.feedIntake;
     this.fitConvertionRatio = BigDecimal.valueOf(this.feedCount.longValue())
@@ -164,11 +165,11 @@ public class CageLog extends PanacheEntityBase {
     this.eggCount = eggCount;
   }
 
-  public Integer getWeightCount() {
+  public BigDecimal getWeightCount() {
     return weightCount;
   }
 
-  public void setWeightCount(Integer weightCount) {
+  public void setWeightCount(BigDecimal weightCount) {
     this.weightCount = weightCount;
   }
 
