@@ -1,5 +1,6 @@
 package org.brainmaster.controller;
 
+import io.quarkus.security.Authenticated;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -13,6 +14,7 @@ public class StatisticResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
+  @Authenticated
   public String getDailyStatistics(@PathParam("id") String cageId) {
     return String.format("{\"field\":\"%s\"}", cageId);
   }

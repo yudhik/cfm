@@ -2,6 +2,7 @@ package util;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 import org.brainmaster.entity.Cage;
 import org.brainmaster.entity.CageLog;
 import org.brainmaster.entity.Member;
@@ -28,7 +29,7 @@ public class Startup {
       Member member = new Member();
       member.setUsername("admin");
       member.setPassword("admin");
-      member.setRole("ADMIN");
+      member.setRoles(Set.of("ADMIN"));
       authService.createAuthentication(member);
 
       for (int i = 0; i < 3; i++) {

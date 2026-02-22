@@ -1,17 +1,24 @@
 package org.brainmaster.entity;
 
+import java.util.Set;
+import org.jboss.logging.Logger;
+import io.quarkiverse.renarde.security.RenardeUser;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.security.jpa.Password;
 import io.quarkus.security.jpa.Roles;
 import io.quarkus.security.jpa.UserDefinition;
 import io.quarkus.security.jpa.Username;
+import jakarta.inject.Inject;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "member")
 @UserDefinition
-public class Member extends PanacheEntity {
+public class Member extends PanacheEntity implements RenardeUser {
+
+  @Inject
+  Logger log;
 
   @Username
   private String username;
@@ -20,7 +27,7 @@ public class Member extends PanacheEntity {
   private String password;
 
   @Roles
-  private String role;
+  private Set<String> roles;
   
   public Member(){}
 
@@ -40,12 +47,28 @@ public class Member extends PanacheEntity {
     this.password = password;
   }
 
-  public String getRole() {
-    return role;
+  public Set<String> getRoles() {
+    return roles;
   }
 
-  public void setRole(String role) {
-    this.role = role;
+  public void setRoles(Set<String> roles) {
+    this.roles = roles;
+  }
+
+  @Override
+  public Set<String> roles() {
+    return roles;
+  }
+
+  @Override
+  public String userId() {
+    return username;
+  }
+
+  @Override
+  public boolean registered() {
+    log.info("registered method called");
+    return true;
   }
   
 }
