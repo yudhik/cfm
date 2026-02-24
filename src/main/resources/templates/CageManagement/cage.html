@@ -26,6 +26,22 @@
         </tbody>
         {/if}
       </table>
+      {#if totalPages > 1}
+      <div class="flex justify-between items-center mt-4">
+        <div class="text-sm text-gray-500">
+          Halaman {currentPage + 1} dari {totalPages}
+        </div>
+        <div class="flex gap-2">
+          {#if currentPage > 0}
+          <a href="{uri:CageManagement.cage(currentPage - 1, pageSize)}"
+            class="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50">Sebelumnya</a>
+          {/if}
+          {#if currentPage < totalPages.minus(1)} <a href="{uri:CageManagement.cage(currentPage + 1, pageSize)}"
+            class="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50">Berikutnya</a>
+            {/if}
+        </div>
+      </div>
+      {/if}
     </div>
   </div>
 </div>

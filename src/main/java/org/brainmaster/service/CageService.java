@@ -23,6 +23,11 @@ public class CageService {
   }
 
   @Transactional
+  public long countCages() {
+    return Cage.count();
+  }
+
+  @Transactional
   public CageLog appendLog(CageLog cageLog) {
     cageLog.persist();
     return CageLog.findById(cageLog.getId());
@@ -30,12 +35,15 @@ public class CageService {
 
   @Transactional
   public Optional<Cage> findByName(String name) {
-    return Optional.of((Cage) Cage.find("FROM Cage c where c.name = ?1", name).singleResultOptional().orElseThrow(() -> new IllegalArgumentException(String.format("unable to find cage with name %s", name))));
+    return Optional.of((Cage) Cage.find("FROM Cage c where c.name = ?1", name)
+        .singleResultOptional().orElseThrow(() -> new IllegalArgumentException(
+            String.format("unable to find cage with name %s", name))));
   }
 
   @Transactional
   public List<CageLog> getLogs(UUID cageId, Integer numberOfWeek) {
-    return CageLog.find("FROM CageLog c where c.cage.id = ?1 and c.createdDate >= ?2", cageId, LocalDateTime.now().minusDays(numberOfWeek)).list();
+    return CageLog.find("FROM CageLog c where c.cage.id = ?1 and c.createdDate >= ?2", cageId,
+        LocalDateTime.now().minusDays(numberOfWeek)).list();
   }
 
 }
