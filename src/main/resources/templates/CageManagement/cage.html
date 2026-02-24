@@ -29,16 +29,16 @@
       {#if totalPages > 1}
       <div class="flex justify-between items-center mt-4">
         <div class="text-sm text-gray-500">
-          Halaman {currentPage + 1} dari {totalPages}
+          Halaman {currentPage.plus(1)} dari {totalPages}
         </div>
         <div class="flex gap-2">
           {#if currentPage > 0}
-          <a href="{uri:CageManagement.cage(currentPage - 1, pageSize)}"
+          <a href="{uri:CageManagement.cage(currentPage.minus(1), pageSize)}"
             class="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50">Sebelumnya</a>
           {/if}
-          {#if currentPage < totalPages.minus(1)} <a href="{uri:CageManagement.cage(currentPage + 1, pageSize)}"
+          {#if currentPage < totalPages.minus(1)} <a href="{uri:CageManagement.cage(currentPage.plus(1), pageSize)}"
             class="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50">Berikutnya</a>
-            {/if}
+          {/if}
         </div>
       </div>
       {/if}
