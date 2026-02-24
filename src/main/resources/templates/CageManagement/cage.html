@@ -1,31 +1,37 @@
 {#include management.html}
 <div class="container full-container p-0 flex flex-col gap-6">
-  {#include header.html}{/include}
+  {#include header.html /}
   <div class="card">
     <div class="card-body flex flex-col gap-6">
-      <p>Daftar Kandang</p>
-      <table class="table-auto border-collapse border border-gray-400">
-        <thead>
-          <tr>
-            <th class="border border-gray-300">Nama Kandang</th>
-            <th class="border border-gray-300">Dibuat oleh</th>
-            <th class="border border-gray-300">Tanggal Pembuatan</th>
-            <th class="border border-gray-300">Usia Kandang</th>
-          </tr>
-        </thead>
-        {#if !cages.isEmpty}
-        <tbody>
-          {#for cage in cages}
-          <tr>
-            <td class="border border-gray-300"><a href="{uri:CageManagement.cageDetail(cage.id)}">{cage.name}</a></td>
-            <td class="border border-gray-300">{cage.createdBy}</td>
-            <td class="border border-gray-300">{cage.createdDate}</td>
-            <td class="border border-gray-300">{cage.createdDate.weekAges}</td>
-          </tr>
-          {/for}
-        </tbody>
-        {/if}
-      </table>
+      <div class="flex flex-col gap-2">
+        <h2 class="text-lg font-bold text-gray-500 px-1 mb-2">Daftar Kandang</h2>
+        <div class="overflow-x-auto rounded-md border border-gray-200">
+          <table class="w-full text-sm text-left align-middle table-striped">
+            <thead class="text-xs text-gray-500 uppercase bg-gray-100 border-b border-gray-200">
+              <tr>
+                <th scope="col" class="px-6 py-4 font-semibold">Nama Kandang</th>
+                <th scope="col" class="px-6 py-4 font-semibold">Dibuat oleh</th>
+                <th scope="col" class="px-6 py-4 font-semibold">Tanggal Pembuatan</th>
+                <th scope="col" class="px-6 py-4 font-semibold">Usia Kandang</th>
+              </tr>
+            </thead>
+            {#if !cages.isEmpty}
+            <tbody>
+              {#for cage in cages}
+              <tr class="border-b border-gray-200 transition-colors duration-300 last:border-0">
+                <td class="px-6 py-4 font-medium text-blue-600 hover:text-blue-700 whitespace-nowrap">
+                  <a href="{uri:CageManagement.cageDetail(cage.id)}">{cage.name}</a>
+                </td>
+                <td class="px-6 py-4 text-gray-500">{cage.createdBy}</td>
+                <td class="px-6 py-4 text-gray-500">{cage.createdDate}</td>
+                <td class="px-6 py-4 text-gray-500">{cage.createdDate.weekAges}</td>
+              </tr>
+              {/for}
+            </tbody>
+            {/if}
+          </table>
+        </div>
+      </div>
       {#if totalPages > 1}
       <div class="flex justify-between items-center mt-4">
         <div class="text-sm text-gray-500">
@@ -34,11 +40,11 @@
         <div class="flex gap-2">
           {#if currentPage > 0}
           <a href="{uri:CageManagement.cage(currentPage.minus(1), pageSize)}"
-            class="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50">Sebelumnya</a>
+            class="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50">Previous</a>
           {/if}
           {#if currentPage < totalPages.minus(1)} <a href="{uri:CageManagement.cage(currentPage.plus(1), pageSize)}"
-            class="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50">Berikutnya</a>
-          {/if}
+            class="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm hover:bg-gray-50">Next</a>
+            {/if}
         </div>
       </div>
       {/if}
