@@ -25,73 +25,29 @@ import jakarta.ws.rs.core.MediaType;
 
 public class CageManagement extends Controller {
 
+  @CheckedTemplate(requireTypeSafeExpressions = false)
+  public static class Templates {
+    public static native TemplateInstance cage(AuthenticatedUserDTO authenticatedUser, List<@NonNull CageDTO> cages,
+        Integer currentPage, Integer pageSize, Integer totalPages);
+
+    public static native TemplateInstance cagedetail(AuthenticatedUserDTO authenticatedUser,
+        List<@NonNull CageLogDTO> cageLogs, Integer currentPage, Integer pageSize, Integer totalPages);
+
+    public static native TemplateInstance index(AuthenticatedUserDTO authenticatedUser);
+
+    public static native TemplateInstance operation(AuthenticatedUserDTO authenticatedUser,
+        List<@NonNull CageDTO> cages);
+  }
+
   @Inject
   SecurityIdentity securityIdentity;
 
   @Inject
   CageService cageService;
 
+
   @Inject
   Logger log;
-
-  @CheckedTemplate(requireTypeSafeExpressions = false)
-  public static class Templates {
-    public static native TemplateInstance index(AuthenticatedUserDTO authenticatedUser);
-
-    public static native TemplateInstance cage(AuthenticatedUserDTO authenticatedUser,
-        List<@NonNull CageDTO> cages, Integer currentPage, Integer pageSize, Integer totalPages);
-
-    public static native TemplateInstance operation(AuthenticatedUserDTO authenticatedUser,
-        List<@NonNull CageDTO> cages);
-
-    public static native TemplateInstance cagedetail(AuthenticatedUserDTO authenticatedUser,
-        List<@NonNull CageLogDTO> cageLogs, Integer currentPage, Integer pageSize,
-        Integer totalPages);
-  }
-
-  @Path("/dashboard")
-  @Authenticated
-  public TemplateInstance index() {
-    return Templates.index(getAuthenticatedUser());
-  }
-
-  @Path("/cage")
-  @Authenticated
-  public TemplateInstance cage(@RestQuery("page") @DefaultValue("0") Integer page,
-      @RestQuery("size") @DefaultValue("1") Integer size) {
-    List<@NonNull CageDTO> cages =
-        cageService.getCages(page, size).stream().map(cage -> new CageDTO(cage.getId(),
-            cage.getName(), cage.getCreatedDate(), cage.getCreatedBy())).toList();
-    long totalCages = cageService.countCages();
-    int totalPages = (int) Math.ceil((double) totalCages / size);
-    return Templates.cage(getAuthenticatedUser(), cages, page, size, totalPages);
-  }
-
-  @Path("/cage/{id}")
-  @Authenticated
-  public TemplateInstance cageDetail(@RestPath("id") UUID id,
-      @RestQuery("page") @DefaultValue("0") Integer page,
-      @RestQuery("size") @DefaultValue("7") Integer size) {
-    List<@NonNull CageLogDTO> cages = cageService.getLogs(id, 8).stream()
-        .map(log -> new CageLogDTO(log.getCage().getId(), log.getCreatedDate(),
-            log.getObservedPopulation(), log.getDeadCount(), log.getKilledCount(),
-            log.getEggCount(), log.getWeightCount(), log.getFeedIntake(),
-            log.getEggPopulationRatio(), log.getEggWeightRatio(), log.getFeedConvertionRatio(),
-            log.getFeedCount(), log.getPopulation()))
-        .toList();
-    long totalDetail = cageService.countCageDetails();
-    int totalPages = (int) Math.ceil((double) totalDetail / size);
-    return Templates.cagedetail(getAuthenticatedUser(), cages, page, size, totalPages);
-  }
-
-  @Path("/operation")
-  @Authenticated
-  public TemplateInstance operation() {
-    List<@NonNull CageDTO> cages =
-        cageService.getCages(0, 10).stream().map(cage -> new CageDTO(cage.getId(), cage.getName(),
-            cage.getCreatedDate(), cage.getCreatedBy())).toList();
-    return Templates.operation(getAuthenticatedUser(), cages);
-  }
 
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -107,9 +63,48 @@ public class CageManagement extends Controller {
     cage(0, 10);
   }
 
+  @Path("/cage")
+  @Authenticated
+  public TemplateInstance cage(@RestQuery("page") @DefaultValue("0") Integer page,
+      @RestQuery("size") @DefaultValue("1") Integer size) {
+    List<@NonNull CageDTO> cages = cageService.getCages(page, size).stream()
+        .map(cage -> new CageDTO(cage.getId(), cage.getName(), cage.getCreatedDate(), cage.getCreatedBy())).toList();
+    long totalCages = cageService.countCages();
+    int totalPages = (int) Math.ceil((double) totalCages / size);
+    return Templates.cage(getAuthenticatedUser(), cages, page, size, totalPages);
+  }
+
+  @Path("/cage/{id}")
+  @Authenticated
+  public TemplateInstance cageDetail(@RestPath("id") UUID id, @RestQuery("page") @DefaultValue("0") Integer page,
+      @RestQuery("size") @DefaultValue("7") Integer size) {
+    List<@NonNull CageLogDTO> cages = cageService.getLogs(id, 8).stream()
+        .map(log -> new CageLogDTO(log.getCage().getId(), log.getCreatedDate(), log.getObservedPopulation(),
+            log.getDeadCount(), log.getKilledCount(), log.getEggCount(), log.getWeightCount(), log.getFeedIntake(),
+            log.getEggPopulationRatio(), log.getEggWeightRatio(), log.getFeedConvertionRatio(), log.getFeedCount(),
+            log.getPopulation()))
+        .toList();
+    long totalDetail = cageService.countCageDetails();
+    int totalPages = (int) Math.ceil((double) totalDetail / size);
+    return Templates.cagedetail(getAuthenticatedUser(), cages, page, size, totalPages);
+  }
+
   private AuthenticatedUserDTO getAuthenticatedUser() {
-    return new AuthenticatedUserDTO(securityIdentity.getPrincipal().getName(),
-        securityIdentity.getRoles());
+    return new AuthenticatedUserDTO(securityIdentity.getPrincipal().getName(), securityIdentity.getRoles());
+  }
+
+  @Path("/dashboard")
+  @Authenticated
+  public TemplateInstance index() {
+    return Templates.index(getAuthenticatedUser());
+  }
+
+  @Path("/operation")
+  @Authenticated
+  public TemplateInstance operation() {
+    List<@NonNull CageDTO> cages = cageService.getCages(0, 10).stream()
+        .map(cage -> new CageDTO(cage.getId(), cage.getName(), cage.getCreatedDate(), cage.getCreatedBy())).toList();
+    return Templates.operation(getAuthenticatedUser(), cages);
   }
 
 }

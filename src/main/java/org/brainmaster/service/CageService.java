@@ -13,13 +13,14 @@ import jakarta.transaction.Transactional;
 public class CageService {
 
   @Transactional
-  public void createCage(Cage cage) {
-    cage.persist();
+  public CageLog appendLog(CageLog cageLog) {
+    cageLog.persist();
+    return CageLog.findById(cageLog.getId());
   }
 
   @Transactional
-  public List<Cage> getCages(Integer pageIndex, Integer pageSize) {
-    return Cage.findAll().page(pageIndex, pageSize).list();
+  public long countCageDetails() {
+    return CageLog.count();
   }
 
   @Transactional
@@ -28,16 +29,19 @@ public class CageService {
   }
 
   @Transactional
-  public CageLog appendLog(CageLog cageLog) {
-    cageLog.persist();
-    return CageLog.findById(cageLog.getId());
+  public void createCage(Cage cage) {
+    cage.persist();
   }
 
   @Transactional
   public Optional<Cage> findByName(String name) {
-    return Optional.of((Cage) Cage.find("FROM Cage c where c.name = ?1", name)
-        .singleResultOptional().orElseThrow(() -> new IllegalArgumentException(
-            String.format("unable to find cage with name %s", name))));
+    return Optional.of((Cage) Cage.find("FROM Cage c where c.name = ?1", name).singleResultOptional()
+        .orElseThrow(() -> new IllegalArgumentException(String.format("unable to find cage with name %s", name))));
+  }
+
+  @Transactional
+  public List<Cage> getCages(Integer pageIndex, Integer pageSize) {
+    return Cage.findAll().page(pageIndex, pageSize).list();
   }
 
   @Transactional
@@ -46,9 +50,5 @@ public class CageService {
         LocalDateTime.now().minusDays(numberOfWeek)).list();
   }
 
-  @Transactional
-  public long countCageDetails() {
-    return CageLog.count();
-  }
 
 }

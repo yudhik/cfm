@@ -28,40 +28,18 @@ public class Member extends PanacheEntity implements RenardeUser {
 
   @Roles
   private Set<String> roles;
-  
-  public Member(){}
 
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
+  public Member() {}
 
   public String getPassword() {
     return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
   }
 
   public Set<String> getRoles() {
     return roles;
   }
 
-  public void setRoles(Set<String> roles) {
-    this.roles = roles;
-  }
-
-  @Override
-  public Set<String> roles() {
-    return roles;
-  }
-
-  @Override
-  public String userId() {
+  public String getUsername() {
     return username;
   }
 
@@ -70,5 +48,27 @@ public class Member extends PanacheEntity implements RenardeUser {
     log.info("registered method called");
     return true;
   }
-  
+
+  @Override
+  public Set<String> roles() {
+    return roles;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public void setRoles(Set<String> roles) {
+    this.roles = roles;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  @Override
+  public String userId() {
+    return username;
+  }
+
 }

@@ -21,5 +21,4 @@ public class Authentication extends Controller {
     return Templates.login();
   }
 
-  
 }

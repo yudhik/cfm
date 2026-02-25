@@ -15,15 +15,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "cage", indexes = {
-  @Index(name = "idx_cage_created_date", columnList = "created_date"),
-  @Index(name = "idx_cage_name", columnList = "name", unique = true)
-})
+@Table(name = "cage", indexes = {@Index(name = "idx_cage_created_date", columnList = "created_date"),
+    @Index(name = "idx_cage_name", columnList = "name", unique = true)})
 public class Cage extends PanacheEntityBase {
 
   @Id
   private UUID id;
-  
+
   @Column
   private String name;
 
@@ -32,11 +30,11 @@ public class Cage extends PanacheEntityBase {
 
   @Column(name = "created_by")
   private String createdBy;
-  
+
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cage", orphanRemoval = true)
   List<CageLog> logs;
 
-  public Cage(){}
+  public Cage() {}
 
   public Cage(String name, String createdBy) {
     this.id = UuidCreator.getTimeOrderedEpoch();
@@ -45,45 +43,44 @@ public class Cage extends PanacheEntityBase {
     this.createdBy = createdBy;
   }
 
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  public String getCreatedBy() {
+    return createdBy;
   }
 
   public LocalDateTime getCreatedDate() {
     return createdDate;
   }
 
-  public void setCreatedDate(LocalDateTime createdDate) {
-    this.createdDate = createdDate;
-  }
-
-  public String getCreatedBy() {
-    return createdBy;
-  }
-
-  public void setCreatedBy(String createdBy) {
-    this.createdBy = createdBy;
+  public UUID getId() {
+    return id;
   }
 
   public List<CageLog> getLogs() {
     return logs;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public void setCreatedDate(LocalDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
   public void setLogs(List<CageLog> logs) {
     this.logs = logs;
   }
 
-  
+  public void setName(String name) {
+    this.name = name;
+  }
+
 }

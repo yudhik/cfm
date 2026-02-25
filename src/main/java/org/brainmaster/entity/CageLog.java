@@ -17,8 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "cage_log",
-    indexes = {@Index(name = "idx_cage_log_created_date", columnList = "created_date")})
+@Table(name = "cage_log", indexes = {@Index(name = "idx_cage_log_created_date", columnList = "created_date")})
 public class CageLog extends PanacheEntityBase {
 
   @Id
@@ -57,11 +56,11 @@ public class CageLog extends PanacheEntityBase {
 
   /*
    * Ga bisa ketahuan kecuali udah di input
-   * 
+   *
    * @Column(name = "egg_accumulation_counter") private Integer eggAccumulationCounter;
-   * 
+   *
    * @Column(name = "weight_accumulation_counter") private Integer weightAccumulationCounter;
-   * 
+   *
    * lebih baik nanti di dashboard aja di tampilkan
    */
   @Column(name = "feed_intake")
@@ -75,9 +74,8 @@ public class CageLog extends PanacheEntityBase {
 
   public CageLog() {}
 
-  public CageLog(Cage cage, LocalDateTime createdDate, Integer observedPopulation,
-      Integer deadCount, Integer killedCount, Integer eggCount, BigDecimal weightCount,
-      Integer feedIntake) {
+  public CageLog(Cage cage, LocalDateTime createdDate, Integer observedPopulation, Integer deadCount,
+      Integer killedCount, Integer eggCount, BigDecimal weightCount, Integer feedIntake) {
     this.id = UuidCreator.getTimeOrderedEpoch();
     this.cage = cage;
     if (Objects.isNull(createdDate)) {
@@ -94,125 +92,125 @@ public class CageLog extends PanacheEntityBase {
     this.eggPopulationRatio = BigDecimal.valueOf(this.eggCount.longValue())
         .divide(BigDecimal.valueOf(this.observedPopulation.longValue()), 4, RoundingMode.HALF_UP)
         .multiply(BigDecimal.valueOf(100L));
-    this.eggWeightRatio = weightCount
-        .divide(new BigDecimal(eggCount.longValue()), 7, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(1000L));
+    this.eggWeightRatio = weightCount.divide(new BigDecimal(eggCount.longValue()), 7, RoundingMode.HALF_UP)
+        .multiply(BigDecimal.valueOf(1000L));
     this.feedIntake = feedIntake;
-    this.feedCount = new BigDecimal(this.population.longValue()).multiply(new BigDecimal(this.feedIntake.longValue())).divide(new BigDecimal(1000L), 0, RoundingMode.HALF_UP).intValue();
-    this.feedConvertionRatio = BigDecimal.valueOf(this.feedCount.longValue())
-        .divide(weightCount, 1, RoundingMode.HALF_UP);
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
+    this.feedCount = new BigDecimal(this.population.longValue()).multiply(new BigDecimal(this.feedIntake.longValue()))
+        .divide(new BigDecimal(1000L), 0, RoundingMode.HALF_UP).intValue();
+    this.feedConvertionRatio =
+        BigDecimal.valueOf(this.feedCount.longValue()).divide(weightCount, 1, RoundingMode.HALF_UP);
   }
 
   public Cage getCage() {
     return cage;
   }
 
-  public void setCage(Cage cage) {
-    this.cage = cage;
-  }
-
   public LocalDateTime getCreatedDate() {
     return createdDate;
-  }
-
-  public void setCreatedDate(LocalDateTime createdDate) {
-    this.createdDate = createdDate;
-  }
-
-  public Integer getObservedPopulation() {
-    return observedPopulation;
-  }
-
-  public void setObservedPopulation(Integer observedPopulation) {
-    this.observedPopulation = observedPopulation;
   }
 
   public Integer getDeadCount() {
     return deadCount;
   }
 
-  public void setDeadCount(Integer deadCount) {
-    this.deadCount = deadCount;
-  }
-
-  public Integer getKilledCount() {
-    return killedCount;
-  }
-
-  public void setKilledCount(Integer killedCount) {
-    this.killedCount = killedCount;
-  }
-
-  public Integer getPopulation() {
-    return population;
-  }
-
-  public void setPopulation(Integer population) {
-    this.population = population;
-  }
-
   public Integer getEggCount() {
     return eggCount;
-  }
-
-  public void setEggCount(Integer eggCount) {
-    this.eggCount = eggCount;
-  }
-
-  public BigDecimal getWeightCount() {
-    return weightCount;
-  }
-
-  public void setWeightCount(BigDecimal weightCount) {
-    this.weightCount = weightCount;
   }
 
   public BigDecimal getEggPopulationRatio() {
     return eggPopulationRatio;
   }
 
-  public void setEggPopulationRatio(BigDecimal eggPopulationRatio) {
-    this.eggPopulationRatio = eggPopulationRatio;
-  }
-
   public BigDecimal getEggWeightRatio() {
     return eggWeightRatio;
-  }
-
-  public void setEggWeightRatio(BigDecimal eggWeightRatio) {
-    this.eggWeightRatio = eggWeightRatio;
-  }
-
-  public Integer getFeedIntake() {
-    return feedIntake;
-  }
-
-  public void setFeedIntake(Integer feedIntake) {
-    this.feedIntake = feedIntake;
-  }
-
-  public Integer getFeedCount() {
-    return feedCount;
-  }
-
-  public void setFeedCount(Integer feedCount) {
-    this.feedCount = feedCount;
   }
 
   public BigDecimal getFeedConvertionRatio() {
     return feedConvertionRatio;
   }
 
+  public Integer getFeedCount() {
+    return feedCount;
+  }
+
+  public Integer getFeedIntake() {
+    return feedIntake;
+  }
+
+  public UUID getId() {
+    return id;
+  }
+
+  public Integer getKilledCount() {
+    return killedCount;
+  }
+
+  public Integer getObservedPopulation() {
+    return observedPopulation;
+  }
+
+  public Integer getPopulation() {
+    return population;
+  }
+
+  public BigDecimal getWeightCount() {
+    return weightCount;
+  }
+
+  public void setCage(Cage cage) {
+    this.cage = cage;
+  }
+
+  public void setCreatedDate(LocalDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
+
+  public void setDeadCount(Integer deadCount) {
+    this.deadCount = deadCount;
+  }
+
+  public void setEggCount(Integer eggCount) {
+    this.eggCount = eggCount;
+  }
+
+  public void setEggPopulationRatio(BigDecimal eggPopulationRatio) {
+    this.eggPopulationRatio = eggPopulationRatio;
+  }
+
+  public void setEggWeightRatio(BigDecimal eggWeightRatio) {
+    this.eggWeightRatio = eggWeightRatio;
+  }
+
   public void setFeedConvertionRatio(BigDecimal fitConvertionRatio) {
     this.feedConvertionRatio = fitConvertionRatio;
   }
 
+  public void setFeedCount(Integer feedCount) {
+    this.feedCount = feedCount;
+  }
+
+  public void setFeedIntake(Integer feedIntake) {
+    this.feedIntake = feedIntake;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
+  public void setKilledCount(Integer killedCount) {
+    this.killedCount = killedCount;
+  }
+
+  public void setObservedPopulation(Integer observedPopulation) {
+    this.observedPopulation = observedPopulation;
+  }
+
+  public void setPopulation(Integer population) {
+    this.population = population;
+  }
+
+  public void setWeightCount(BigDecimal weightCount) {
+    this.weightCount = weightCount;
+  }
 
 }
