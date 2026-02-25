@@ -10,11 +10,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "cage")
+@Table(name = "cage", indexes = {
+  @Index(name = "idx_cage_created_date", columnList = "created_date"),
+  @Index(name = "idx_cage_name", columnList = "name", unique = true)
+})
 public class Cage extends PanacheEntityBase {
 
   @Id

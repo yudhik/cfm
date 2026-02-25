@@ -69,7 +69,7 @@ $(function () {
     },
     fill: {
       opacity: 1,
-      colors: ["#0085db", "#fb977d"],
+      colors: ["#D58B5D", "#fb977d"],
     },
     tooltip: {
       theme: "dark",
@@ -116,7 +116,7 @@ $(function () {
         fillSeriesColor: false,
       },
     
-      colors: ["#e7ecf0", "#fb977d", "#0085db"],
+      colors: ["#e7ecf0", "#fb977d", "#D58B5D"],
       dataLabels: {
         enabled: false,
       },

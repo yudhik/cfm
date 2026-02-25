@@ -1,0 +1,12 @@
+<div class="flex flex-col gap-2">
+  <h2 class="text-lg font-bold text-gray-500 px-1 mb-2">Daftar Kandang</h2>
+  <div class="overflow-x-auto rounded-md border border-gray-200">
+    <table class="w-full text-sm text-left align-middle table-striped">
+      <thead class="text-xs text-gray-500 uppercase bg-gray-100 border-b border-gray-200">
+        {#insert table-header /}
+      </thead>
+      {#insert table-body/}
+    </table>
+  </div>
+</div>
+{#pagination totalPages=totalPages currentPage=currentPage pageSize=pageSize /}

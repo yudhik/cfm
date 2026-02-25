@@ -1,30 +1,34 @@
 {#include management.html}
 <div class="container full-container p-0 flex flex-col gap-6">
-  {#include header.html}{/include}
+  {#include header.html /}
   <div class="card">
     <div class="card-body flex flex-col gap-6">
-      <table class="table-auto border-collapse border border-gray-400">
-        <thead>
-          <tr>
-            <th class="border border-gray-300">Nama Kandang</th>
-            <th class="border border-gray-300">Dibuat oleh</th>
-            <th class="border border-gray-300">Tanggal Pembuatan</th>
-            <th class="border border-gray-300">Usia Kandang</th>
-          </tr>
-        </thead>
-        {#if !cages.isEmpty}
-        <tbody>
-          {#for cage in cages}
-          <tr>
-            <td class="border border-gray-300">{cage.name}</td>
-            <td class="border border-gray-300">{cage.createdBy}</td>
-            <td class="border border-gray-300">{cage.createdDate}</td>
-            <td class="border border-gray-300">{cage.createdDate.weekAges}</td>
-          </tr>
-          {/for}
-        </tbody>
-        {/if}
-      </table>
+      {#include summaryTable}
+      {#table-header}
+      <tr>
+        <th scope="col" class="px-6 py-4 font-semibold">Nama Kandang</th>
+        <th scope="col" class="px-6 py-4 font-semibold">Dibuat oleh</th>
+        <th scope="col" class="px-6 py-4 font-semibold">Tanggal Pembuatan</th>
+        <th scope="col" class="px-6 py-4 font-semibold">Usia Kandang</th>
+      </tr>
+      {/table-header}
+      {#table-body}
+      {#if !cages.isEmpty}
+      <tbody>
+        {#for cage in cages}
+        <tr class="border-b border-gray-200 transition-colors duration-300 last:border-0">
+          <td class="px-6 py-4 font-medium whitespace-nowrap">
+            <a href="{uri:CageManagement.cageDetail(cage.id)}">{cage.name}</a>
+          </td>
+          <td class="px-6 py-4 text-gray-500">{cage.createdBy}</td>
+          <td class="px-6 py-4 text-gray-500">{cage.createdDate}</td>
+          <td class="px-6 py-4 text-gray-500">{cage.createdDate.weekAges}</td>
+        </tr>
+        {/for}
+      </tbody>
+      {/if}
+      {/table-body}
+      {/include}
     </div>
   </div>
 </div>

@@ -1,0 +1,50 @@
+{#include management.html}
+<div class="container full-container p-0 flex flex-col gap-6">
+  {#include header.html /}
+  <div class="card">
+    <div class="card-body flex flex-col gap-6">
+      {#include summaryTable}
+      {#table-header}
+      <tr>
+        <th scope="col" class="px-6 py-4 font-semibold">Tanggal Pencatatan</th>
+        <th scope="col" class="px-6 py-4 font-semibold">Pop Awal</th>
+        <th scope="col" class="px-6 py-4 font-semibold">MT</th>
+        <th scope="col" class="px-6 py-4 font-semibold">CULL</th>
+        <th scope="col" class="px-6 py-4 font-semibold">Pop Akhir</th>
+        <th scope="col" class="px-6 py-4 font-semibold">Butir</th>
+        <th scope="col" class="px-6 py-4 font-semibold">KG</th>
+        <th scope="col" class="px-6 py-4 font-semibold">HD</th>
+        <th scope="col" class="px-6 py-4 font-semibold">BRT TLR</th>
+        <th scope="col" class="px-6 py-4 font-semibold">F.I</th>
+        <th scope="col" class="px-6 py-4 font-semibold">Pakan</th>
+        <th scope="col" class="px-6 py-4 font-semibold">FCR</th>
+      </tr>
+      {/table-header}
+      {#table-body}
+      {#if !cageLogs.isEmpty}
+      <tbody>
+        {#for cagelog in cageLogs}
+        <tr class="border-b border-gray-200 transition-colors duration-300 last:border-0">
+
+          <td class="px-6 py-4 text-gray-500">{cagelog.createdDate.toLocalDate}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.observedPopulation}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.deadCount}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.killedCount}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.population}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.eggCount}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.weightCount}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.eggPopulationRatio}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.eggWeightRatio}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.feedIntake}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.feedCount}</td>
+          <td class="px-6 py-4 text-gray-500">{cagelog.feedConvertionRatio}</td>
+        </tr>
+        {/for}
+      </tbody>
+      {/if}
+      {/table-body}
+      {/include}
+    </div>
+  </div>
+</div>
+{/include}
