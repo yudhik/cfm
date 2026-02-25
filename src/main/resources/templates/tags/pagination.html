@@ -1,0 +1,16 @@
+{#if totalPages > 1}
+<div class="flex justify-between items-center mt-4">
+  <div class="text-gray-500">
+    Halaman ke {currentPage.plus(1)} dari {totalPages} halaman
+  </div>
+  <div class="flex gap-2">
+    {#if currentPage > 0}
+    <a href="{uri:CageManagement.cage(currentPage.minus(1), pageSize)}"
+      class="btn px-3 py-1 bg-blue border border-gray-300 rounded-md text-sm hover:border-blue-300">Prev</a>
+    {/if}
+    {#if currentPage < totalPages.minus(1)} <a href="{uri:CageManagement.cage(currentPage.plus(1), pageSize)}"
+      class="btn px-3 py-1 bg-blue border border-gray-300 rounded-md text-sm hover:border-blue-300">Next</a>
+      {/if}
+  </div>
+</div>
+{/if}

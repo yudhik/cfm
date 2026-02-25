@@ -46,4 +46,9 @@ public class CageService {
         LocalDateTime.now().minusDays(numberOfWeek)).list();
   }
 
+  @Transactional
+  public long countCageDetails() {
+    return CageLog.count();
+  }
+
 }

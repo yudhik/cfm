@@ -45,7 +45,8 @@ public class CageManagement extends Controller {
         List<@NonNull CageDTO> cages);
 
     public static native TemplateInstance cagedetail(AuthenticatedUserDTO authenticatedUser,
-        List<@NonNull CageLogDTO> cageLogs);
+        List<@NonNull CageLogDTO> cageLogs, Integer currentPage, Integer pageSize,
+        Integer totalPages);
   }
 
   @Path("/dashboard")
@@ -68,7 +69,9 @@ public class CageManagement extends Controller {
 
   @Path("/cage/{id}")
   @Authenticated
-  public TemplateInstance cageDetail(@RestPath("id") UUID id) {
+  public TemplateInstance cageDetail(@RestPath("id") UUID id,
+      @RestQuery("page") @DefaultValue("0") Integer page,
+      @RestQuery("size") @DefaultValue("7") Integer size) {
     List<@NonNull CageLogDTO> cages = cageService.getLogs(id, 8).stream()
         .map(log -> new CageLogDTO(log.getCage().getId(), log.getCreatedDate(),
             log.getObservedPopulation(), log.getDeadCount(), log.getKilledCount(),
@@ -76,7 +79,9 @@ public class CageManagement extends Controller {
             log.getEggPopulationRatio(), log.getEggWeightRatio(), log.getFeedConvertionRatio(),
             log.getFeedCount(), log.getPopulation()))
         .toList();
-    return Templates.cagedetail(getAuthenticatedUser(), cages);
+    long totalDetail = cageService.countCageDetails();
+    int totalPages = (int) Math.ceil((double) totalDetail / size);
+    return Templates.cagedetail(getAuthenticatedUser(), cages, page, size, totalPages);
   }
 
   @Path("/operation")
