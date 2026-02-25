@@ -19,7 +19,7 @@
             <tbody>
               {#for cage in cages}
               <tr class="border-b border-gray-200 transition-colors duration-300 last:border-0">
-                <td class="px-6 py-4 font-medium text-blue-600 hover:text-blue-700 whitespace-nowrap">
+                <td class="px-6 py-4 font-medium whitespace-nowrap">
                   <a href="{uri:CageManagement.cageDetail(cage.id)}">{cage.name}</a>
                 </td>
                 <td class="px-6 py-4 text-gray-500">{cage.createdBy}</td>
