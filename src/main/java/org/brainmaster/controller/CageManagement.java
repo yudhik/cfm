@@ -79,10 +79,10 @@ public class CageManagement extends Controller {
   public TemplateInstance cageDetail(@RestPath("id") UUID id, @RestQuery("page") @DefaultValue("0") Integer page,
       @RestQuery("size") @DefaultValue("7") Integer size) {
     List<@NonNull CageLogDTO> cages = cageService.getLogs(id, 8).stream()
-        .map(log -> new CageLogDTO(log.getCage().getId(), log.getCreatedDate(), log.getObservedPopulation(),
-            log.getDeadCount(), log.getKilledCount(), log.getEggCount(), log.getWeightCount(), log.getFeedIntake(),
+        .map(log -> new CageLogDTO(log.getId(), log.getCreatedDate(), log.getObservedPopulation(), log.getDeadCount(),
+            log.getKilledCount(), log.getEggCount(), log.getWeightCount(), log.getFeedIntake(),
             log.getEggPopulationRatio(), log.getEggWeightRatio(), log.getFeedConvertionRatio(), log.getFeedCount(),
-            log.getPopulation()))
+            log.getPopulation(), log.getWeeksBetween()))
         .toList();
     long totalDetail = cageService.countCageDetails();
     int totalPages = (int) Math.ceil((double) totalDetail / size);
